@@ -7,7 +7,10 @@
         "start": "node server",
         "server": "nodemon server"
     },
-    "author": "Tanuraj Shaktawat",
+    "author": {
+        "name": "Tanuraj Shaktawat",
+        "email": "tanuraj.shaktawat@gmail.com"
+    },
     "license": "ISC",
     "dependencies": {
         "bcryptjs": "^2.4.3",
