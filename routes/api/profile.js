@@ -238,4 +238,31 @@ router.put(
         }
     }
 );
+
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete profile $ user
+// @access  Private
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+    //Find user auth user data
+    try {
+        //Get profile
+        const profile = await Profile.findOne({ user: req.user.id });
+
+        //Get removed index
+        const removeIndex = profile.experience
+            .map(item => item.id)
+            .indexOf(req.params.exp_id);
+
+        // Remove index
+        profile.experience.splice(removeIndex, 1);
+
+        //Again save profile
+        await profile.save();
+
+        res.json(profile);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server error');
+    }
+});
 module.exports = router;
