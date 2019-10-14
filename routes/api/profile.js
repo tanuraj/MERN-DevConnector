@@ -117,8 +117,8 @@ router.post(
 );
 
 // @route   GET api/profile
-// @desc    GET all profile
-// @access  Public
+// @desc    GET aaaaaall profile
+// @access  Publaaaaaac
 router.get('/', async (req, res) => {
     //Find user auth user data
     try {
@@ -178,4 +178,64 @@ router.delete('/', auth, async (req, res) => {
     }
 });
 
+// @route   PUT api/profile/experience
+// @desc    Add profile experience
+// @access  Private
+router.put(
+    '/experience',
+    [
+        auth,
+        [
+            check('title', 'Please enter title')
+                .not()
+                .isEmpty(),
+            check('company', 'Please enter company')
+                .not()
+                .isEmpty(),
+            check('from', 'Please enter from date')
+                .not()
+                .isEmpty()
+        ]
+    ],
+    async (req, res) => {
+        //Check validattion error
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        //Assign variable with req body
+        const {
+            title,
+            company,
+            location,
+            from,
+            to,
+            current,
+            description
+        } = req.body;
+
+        //Build experince object
+        const newExp = {
+            title,
+            company,
+            location,
+            from,
+            to,
+            current,
+            description
+        };
+
+        //Save user experience
+        try {
+            const profile = await Profile.findOne({ user: req.user.id });
+            profile.experience.unshift(newExp);
+            await profile.save();
+            res.json(profile);
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send('Server error');
+        }
+    }
+);
 module.exports = router;
