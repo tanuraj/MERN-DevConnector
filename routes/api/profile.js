@@ -2,6 +2,8 @@ const express = require('express'); //used for express featurs
 const router = express.Router(); //used for routing
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const request = require('request'); // Use for creare request from github for repos
+const config = require('config'); // for using credential of github
 
 //Use models
 const Profile = require('../../models/Profile');
@@ -361,4 +363,35 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     }
 });
 
+// @route   GET api/profile/github/:username
+// @desc    Get user repositories fro github
+// @access  Public
+router.get('/github/:username', (req, res) => {
+    try {
+        const option = {
+            uri: `https://api.github.com/users/${
+                req.params.username
+            }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+                'githubClientId'
+            )}&client_secret=${config.get('githubClientSecret')}`,
+            method: 'GET',
+            headers: { 'user-agent': 'node.js' }
+        };
+
+        request(option, (error, response, body) => {
+            //Check for error
+            if (error) console.log(error);
+
+            //Check for valid response(200)
+            if (response.statusCode != 200) {
+                return res.status(404).json({ msg: 'No github profie found' });
+            }
+
+            res.json(JSON.parse(body));
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+    }
+});
 module.exports = router;
