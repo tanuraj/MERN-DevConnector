@@ -19,7 +19,7 @@ const PostSchema = new mongoose.Schema({
     likes: [
         {
             user: {
-                type: Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: 'users'
             }
         }
@@ -27,7 +27,7 @@ const PostSchema = new mongoose.Schema({
     comments: [
         {
             user: {
-                type: Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: 'users'
             },
             text: {

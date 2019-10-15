@@ -112,15 +112,12 @@ router.post(
             console.log(error.message);
             res.status(500).send('Server Error');
         }
-
-        console.log(profileFields.skills);
-        res.send('Hel');
     }
 );
 
 // @route   GET api/profile
-// @desc    GET aaaaaall profile
-// @access  Publaaaaaac
+// @desc    GET all profile
+// @access  Public
 router.get('/', async (req, res) => {
     //Find user auth user data
     try {
