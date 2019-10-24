@@ -81,7 +81,8 @@ router.post(
         if (githubusername) profileFields.githubusername = githubusername;
         //Set skills array
         if (skills) {
-            profileFields.skills = skills.split(',').map(skill => skill.trim());
+            const ismultiple = skills.indexOf(",");
+            profileFields.skills = ismultiple >= 0 ? skills.split(',').map(skill => skill.trim()):skills;
         }
         //Set social links
         profileFields.social = {};
