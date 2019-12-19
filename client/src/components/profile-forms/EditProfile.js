@@ -48,7 +48,7 @@ const EditProfile = ({
 			instagram:
 				loading || !profile.social ? '' : profile.social.instagram
 		});
-	}, [loading]);
+	}, [loading, getCurrentProfile]);
 
 	//Assign variables
 	const {
@@ -274,7 +274,6 @@ const mapStateToProps = state => ({
 	profile: state.profile
 });
 
-export default connect(
-	mapStateToProps,
-	{ createProfile, getCurrentProfile }
-)(withRouter(EditProfile));
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+	withRouter(EditProfile)
+);

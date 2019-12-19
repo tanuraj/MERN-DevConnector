@@ -16,7 +16,7 @@ const Dashboard = ({
 }) => {
 	useEffect(() => {
 		getCurrentProfile();
-	}, []);
+	}, [getCurrentProfile]);
 
 	return loading && profile === null ? (
 		<Spinner />
@@ -64,7 +64,6 @@ const mapStateToProps = state => ({
 	profile: state.profile
 });
 
-export default connect(
-	mapStateToProps,
-	{ getCurrentProfile, deleteAccount }
-)(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
+	Dashboard
+);
