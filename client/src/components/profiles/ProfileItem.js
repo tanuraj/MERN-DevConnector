@@ -40,5 +40,3 @@ ProfileItem.propTypes = {
 };
 
 export default ProfileItem;
-
-// display profiles video no.2
